@@ -14,14 +14,11 @@
   (init-keys key)
   (decrypt-1 n))
 
-;;; TODO Block encryption/decryption
 ;;; Mode: ECB - Electronic Codebook
-;;;       CBC - Cipher Block Chaining
-;;;       CFB - Cipher Feed Back
-;;;       OFB - Output Feed Back
-;;;
 
 (defun block-encrypt-ecb (plain-text cipher-text key)
+  "DES encryption with Electronic Codebook (ECB) mode of array
+PLAN-TEXT with key KEY. Result is array CIPHER-TEXT."
   (declare (type (array (unsigned-byte 64)) plain-text cipher-text)
 	   (type (unsigned-byte 64) key))
   (init-keys key)
@@ -30,9 +27,45 @@
   cipher-text)
 
 (defun block-decrypt-ecb (cipher-text plain-text key)
+  "DES decryption with Electronic Codebook (ECB) mode of array
+CIPHER-TEXT with key KEY. Result is array PLAN-TEXT."
   (declare (type (array (unsigned-byte 64)) cipher-text plain-text)
 	   (type (unsigned-byte 64) key))
   (init-keys key)
   (loop for i below (length cipher-text) do
     (setf (aref plain-text i) (decrypt-1 (aref cipher-text i))))
   plain-text)
+
+;;; Mode: CBC - Cipher Block Chaining
+
+(defun block-encrypt-cbc (plain-text cipher-text key &key (iv 0))
+  "DES encryption with Cipher Block Chaining (CBC) mode of array
+PLAN-TEXT with key KEY and initialization vector IV. Result is array
+CIPHER-TEXT."
+  (declare (type (array (unsigned-byte 64)) plain-text cipher-text)
+	   (type (unsigned-byte 64) key iv))
+  (init-keys key)
+  (loop for i below (length plain-text)
+	for kv = iv then ct
+	for pt = (aref plain-text i)
+	for ct = (encrypt-1 (logxor pt kv))
+	do (setf (aref cipher-text i) ct))
+  cipher-text)
+
+(defun block-decrypt-cbc (cipher-text plain-text key &key (iv 0))
+  "DES decryption with Cipher Block Chaining (CBC) mode of array
+CIPHER-TEXT with key KEY and initialization vector IV. Result is array
+PLAN-TEXT."
+  (declare (type (array (unsigned-byte 64)) plain-text cipher-text)
+	   (type (unsigned-byte 64) key iv))
+  (init-keys key)
+  (loop for i below (length cipher-text)
+	for kv = iv then ct
+	for ct = (aref cipher-text i)
+	for pt = (logxor (decrypt-1 ct) kv)
+	do (setf (aref plain-text i) pt))
+  plain-text)
+
+;;; TODO
+;;; Mode: CFB - Cipher Feed Back
+;;; Mode: OFB - Output Feed Back
