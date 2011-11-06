@@ -1,6 +1,6 @@
 ;;; Benchmarks
 
-(defparameter *block-length* 10000000)
+(defparameter *block-length* 1000000)
 (defparameter *key* (random (expt 2 64)))
 (defparameter *iv* (random (expt 2 64)))
 
