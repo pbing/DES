@@ -88,3 +88,37 @@
 	for l of-type (unsigned-byte 32) = (ldb (byte 32 32) ip) then r
 	and r of-type (unsigned-byte 32) = (ldb (byte 32  0) ip) then (logxor l (f r (aref *keys* round (- 16 i))))
 	finally (return (dpb r (byte 32 32) l))))
+
+(declaim (inline encrypt-1))
+(defun encrypt-1 (n)
+  "DES encryption with pre-calculated keys."
+  (declare (type (unsigned-byte 64) n))
+  (inverse-initial-permutation (%encrypt (initial-permutation n) 0)))
+
+(declaim (inline decrypt-1))
+(defun decrypt-1 (n)
+  "DES decryption with pre-calculated keys."
+  (declare (type (unsigned-byte 64) n))
+  (inverse-initial-permutation (%decrypt (initial-permutation n) 0)))
+
+(declaim (inline encrypt3-1))
+(defun encrypt3-1 (n)
+  "DES3 encryption with pre-calculated keys."
+  (declare (type (unsigned-byte 64) n))
+  (let ((w (initial-permutation n)))
+    (declare (type (unsigned-byte 64) w))
+    (setf w (%encrypt w 0)
+	  w (%decrypt w 1)
+	  w (%encrypt w 2)) 
+    (inverse-initial-permutation w)))
+
+(declaim (inline decrypt3-1))
+(defun decrypt3-1 (n)
+  "DES3 decryption with pre-calculated keys."
+  (declare (type (unsigned-byte 64) n))
+  (let ((w (initial-permutation n)))
+    (declare (type (unsigned-byte 64) w))
+    (setf w (%decrypt w 0)
+	  w (%encrypt w 1)
+	  w (%decrypt w 2)) 
+    (inverse-initial-permutation w)))
