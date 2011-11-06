@@ -1,6 +1,6 @@
 ;;; Data Encryption Standard (DES) and Triple-DES
 ;;;
-;;; $Id:$
+;;; $Id$
 
 (defsystem des
   :in-order-to ((test-op (test-op des-tests)))
