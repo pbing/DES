@@ -7,8 +7,8 @@
 	       (:file "s-boxes" :depends-on ("packages"))
 	       (:file "cipher-function" :depends-on ("packages"))
 	       (:file "des-core" :depends-on ("packages"))
-	       (:file "des" :depends-on ("packages"))
-	       (:file "des3" :depends-on ("packages" "des"))))
+	       (:file "des" :depends-on ("packages" "des-core"))
+	       (:file "des3" :depends-on ("packages" "des-core"))))
 
 (defsystem des-tests
   :depends-on (des sb-rt)
