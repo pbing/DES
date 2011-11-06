@@ -12,8 +12,7 @@
   "Inititial permution IP"
   (declare (type (unsigned-byte 64) n))
   (let ((l 0) (r 0) (w 0))
-    (declare (type (unsigned-byte 32) l r w)
-	     (optimize speed))
+    (declare (type (unsigned-byte 32) l r w))
     (setf l (ldb (byte 32 32) n)
 	  r (ldb (byte 32 0) n)
 
@@ -43,8 +42,7 @@
   "Inverse initial permution IPINV"
   (declare (type (unsigned-byte 64) n))
   (let ((l 0) (r 0) (w 0))
-    (declare (type (unsigned-byte 32) l r w)
-	     (optimize speed))
+    (declare (type (unsigned-byte 32) l r w))
     (setf l (ldb (byte 32 32) n)
 	  r (ldb (byte 32 0) n)
 
