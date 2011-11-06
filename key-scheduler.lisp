@@ -2,6 +2,8 @@
 
 (in-package #:des)
 
+(defparameter *keys* (make-array '(3 16) :element-type '(unsigned-byte 56)))
+
 (defun pc-1 (n)
   "Permuted choice 1."
   (declare (type (unsigned-byte 64) n))
@@ -192,3 +194,15 @@
       (16 (setf c (dpb (ldb (byte 0 0) c) (byte 0 28) (ldb (byte 28 0) c))
 		d (dpb (ldb (byte 0 0) d) (byte 0 28) (ldb (byte 28 0) d)))))
     (pc-2 (dpb c (byte 28 28) d))))
+
+(defun init-keys (key)
+  (declare (type (unsigned-byte 64) key))
+  (loop for i from 1 to 16 do
+    (setf (aref *keys* 0 (1- i)) (ks key i))))
+
+(defun init-keys-3 (key1 key2 key3)
+  (declare (type (unsigned-byte 64) key1 key2 key3))
+  (loop for i from 1 to 16 do
+    (setf (aref *keys* 0 (1- i)) (ks key1 i)
+	  (aref *keys* 1 (1- i)) (ks key2 i)
+	  (aref *keys* 2 (1- i)) (ks key3 i))))

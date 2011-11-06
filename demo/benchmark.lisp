@@ -12,9 +12,11 @@
   (values))
 
 #+(or)
-(sb-profile:profile benchmark-encrypt-ecb 
+(sb-profile:profile des:block-encrypt-ecb
 		    des::initial-permutation
 		    des::inverse-initial-permutation
+		    des::%encrypt 
+		    des::%decrypt 
 		    des:encrypt 
 		    des:decrypt 
 		    des::pc-1 des::pc-2 des::ks 
@@ -22,3 +24,12 @@
 ;;; (sb-profile:report)
 ;;; (sb-profile:reset)
 ;;; (sb-profile:unprofile)
+
+
+;;; (require :sb-sprof)
+#+(or)
+(sb-sprof:with-profiling (:max-samples 1000 
+			  :mode :cpu
+			  :report :flat
+			  :show-progress t)
+  (benchmark-encrypt-ecb))

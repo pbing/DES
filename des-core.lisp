@@ -70,19 +70,21 @@
     (dpb l (byte 32 32) r)))
 
 (declaim (inline %encrypt))
-(defun %encrypt (ip key)
-  "DES encryption of initial permutation data IP with KEY."
-  (declare (type (unsigned-byte 64) ip))
+(defun %encrypt (ip round)
+  "DES encryption of initial permutation data IP at ROUND."
+  (declare (type (unsigned-byte 64) ip)
+	   (fixnum round))
   (loop for i fixnum from 0 to 16
 	for l of-type (unsigned-byte 32) = (ldb (byte 32 32) ip) then r
-	and r of-type (unsigned-byte 32) = (ldb (byte 32  0) ip) then (logxor l (f r (ks key i)))
+	and r of-type (unsigned-byte 32) = (ldb (byte 32  0) ip) then (logxor l (f r (aref *keys* round (1- i))))
 	finally (return (dpb r (byte 32 32) l))))
 
 (declaim (inline %decrypt))
-(defun %decrypt (ip key)
-  "DES decryption of N initial permutation data IP with KEY."
-  (declare (type (unsigned-byte 64) ip))
+(defun %decrypt (ip round)
+  "DES decryption of N initial permutation data IP at ROUND."
+  (declare (type (unsigned-byte 64) ip)
+	   (fixnum round))
   (loop for i fixnum from 0 to 16
 	for l of-type (unsigned-byte 32) = (ldb (byte 32 32) ip) then r
-	and r of-type (unsigned-byte 32) = (ldb (byte 32  0) ip) then (logxor l (f r (ks key (- 17 i))))
+	and r of-type (unsigned-byte 32) = (ldb (byte 32  0) ip) then (logxor l (f r (aref *keys* round (- 16 i))))
 	finally (return (dpb r (byte 32 32) l))))
