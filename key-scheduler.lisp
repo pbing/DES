@@ -193,7 +193,7 @@
 
       (16 (setf c (dpb (ldb (byte 0 0) c) (byte 0 28) (ldb (byte 28 0) c))
 		d (dpb (ldb (byte 0 0) d) (byte 0 28) (ldb (byte 28 0) d)))))
-    (pc-2 (dpb c (byte 28 28) d))))
+    (the (unsigned-byte 48) (pc-2 (dpb c (byte 28 28) d)))))
 
 (defun init-keys (key)
   (declare (type (unsigned-byte 64) key))

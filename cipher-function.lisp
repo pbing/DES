@@ -90,4 +90,4 @@
 	    w (dpb s6 (byte 4  8) w)
 	    w (dpb s7 (byte 4  4) w)
 	    w (dpb s8 (byte 4  0) w))
-      (p w))))
+      (the (unsigned-byte 32) (p w)))))
