@@ -1,6 +1,4 @@
 ;;; Benchmarks
-;;;
-;;; $Id$
 
 (defparameter *block-length* 1000000)
 (defparameter *key* (random (expt 2 64)))
