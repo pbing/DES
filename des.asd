@@ -6,7 +6,7 @@
 	       (:file "key-scheduler" :depends-on ("packages"))
 	       (:file "s-boxes" :depends-on ("packages"))
 	       (:file "cipher-function" :depends-on ("packages"))
-	       (:file "des-core" :depends-on ("packages"))
+	       (:file "des-core" :depends-on ("packages" "key-scheduler"))
 	       (:file "des" :depends-on ("packages" "des-core"))
 	       (:file "des3" :depends-on ("packages" "des-core"))))
 
