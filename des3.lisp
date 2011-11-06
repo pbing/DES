@@ -1,6 +1,4 @@
 ;;; Triple DES
-;;;
-;;; $Id$
 
 (in-package #:des)
 

@@ -1,6 +1,4 @@
 ;;; Cipher function
-;;;
-;;; $Id$
 
 (in-package #:des)
 

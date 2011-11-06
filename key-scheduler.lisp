@@ -1,6 +1,4 @@
 ;;; Key scheduler
-;;;
-;;; $Id$
 
 (in-package #:des)
 

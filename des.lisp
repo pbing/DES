@@ -1,6 +1,4 @@
 ;;; Data Encryption Standard (DES)
-;;;
-;;; $Id$
 
 (in-package #:des)
 

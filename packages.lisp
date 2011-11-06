@@ -1,6 +1,4 @@
 ;;; Package definitions
-;;;
-;;; $Id$
 
 (defpackage :des
   (:use #:cl)

@@ -1,6 +1,4 @@
 ;;; S-Boxes
-;;;
-;;; $Id$
 
 (in-package #:des)
 

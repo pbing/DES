@@ -1,6 +1,5 @@
 ;;; NIST Special Publication 800-17
 ;;; Modes of Operation Validation System (MOVS): Requirements and Procedures
-;;; $Id$
 
 (in-package #:des-tests)
 
