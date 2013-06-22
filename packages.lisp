@@ -1,7 +1,7 @@
-;;; Package definitions
+;;;; Package definitions
 
 (defpackage :des
-  (:use #:cl)
+  (:use #:common-lisp)
   (:export #:encrypt #:decrypt
 	   #:encrypt3 #:decrypt3
 	   #:block-encrypt-ecb #:block-decrypt-ecb
@@ -9,5 +9,5 @@
   (:documentation "Data Encryption Standard (DES) encryption and decryption."))
 
 (defpackage :des-tests
-  (:use #:cl)
+  (:use #:common-lisp)
   (:documentation "DES tests"))
