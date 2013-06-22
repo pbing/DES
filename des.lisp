@@ -1,6 +1,21 @@
-;;; Single DES
+;;;; Single DES
+;;;;
+;;;; Due to 64 bit return types functions are inlined in order to
+;;;; reduce consing.
 
 (in-package #:des)
+
+(declaim (inline encrypt-1))
+(defun encrypt-1 (n)
+  "DES encryption with pre-calculated keys."
+  (declare (type (unsigned-byte 64) n))
+  (inverse-initial-permutation (%encrypt (initial-permutation n) 0)))
+
+(declaim (inline decrypt-1))
+(defun decrypt-1 (n)
+  "DES decryption with pre-calculated keys."
+  (declare (type (unsigned-byte 64) n))
+  (inverse-initial-permutation (%decrypt (initial-permutation n) 0)))
 
 (defun encrypt (n key)
   "DES encryption of N with KEY."
