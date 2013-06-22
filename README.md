@@ -1,6 +1,5 @@
 # Description
 DES implementation in Common Lisp.
-Written for readability with almost no performance optimizations.
 
 # Performance
 Lisp Version: sbcl-1.1.8-x86-64-darwin
