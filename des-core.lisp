@@ -5,7 +5,7 @@
 
 (in-package #:des)
 
-;;; Hoey's clever initial permutation algorithm, from Outerbridge 
+;;; Hoey's clever initial permutation algorithm, from Outerbridge
 ;;; (see Schneier p 478)
 (declaim (inline initial-permutation))
 (defun initial-permutation (n)
@@ -68,21 +68,19 @@
     (dpb l (byte 32 32) r)))
 
 (declaim (inline %encrypt))
-(defun %encrypt (ip round)
+(defun %encrypt (ip keys)
   "DES encryption of initial permutation data IP at ROUND."
-  (declare (type (unsigned-byte 64) ip)
-	   (fixnum round))
+  (declare (type (unsigned-byte 64) ip))
   (loop for i fixnum from 0 to 16
 	for l of-type (unsigned-byte 32) = (ldb (byte 32 32) ip) then r
-	and r of-type (unsigned-byte 32) = (ldb (byte 32  0) ip) then (logxor l (f r (aref *keys* round (1- i))))
+	and r of-type (unsigned-byte 32) = (ldb (byte 32  0) ip) then (logxor l (f r (aref keys (1- i))))
 	finally (return (dpb r (byte 32 32) l))))
 
 (declaim (inline %decrypt))
-(defun %decrypt (ip round)
+(defun %decrypt (ip keys)
   "DES decryption of N initial permutation data IP at ROUND."
-  (declare (type (unsigned-byte 64) ip)
-	   (fixnum round))
+  (declare (type (unsigned-byte 64) ip))
   (loop for i fixnum from 0 to 16
 	for l of-type (unsigned-byte 32) = (ldb (byte 32 32) ip) then r
-	and r of-type (unsigned-byte 32) = (ldb (byte 32  0) ip) then (logxor l (f r (aref *keys* round (- 16 i))))
+	and r of-type (unsigned-byte 32) = (ldb (byte 32  0) ip) then (logxor l (f r (aref keys (- 16 i))))
 	finally (return (dpb r (byte 32 32) l))))

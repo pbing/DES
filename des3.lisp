@@ -1,40 +1,38 @@
 ;;;; Triple DES
-;;;;
-;;;; Due to 64 bit return types functions are inlined in order to
-;;;; reduce consing.
 
 (in-package #:des)
 
-(declaim (inline encrypt3-1))
-(defun encrypt3-1 (n)
-  "DES3 encryption with pre-calculated keys."
-  (declare (type (unsigned-byte 64) n))
-  (let ((w (initial-permutation n)))
-    (declare (type (unsigned-byte 64) w))
-    (setf w (%encrypt w 0)
-	  w (%decrypt w 1)
-	  w (%encrypt w 2)) 
-    (inverse-initial-permutation w)))
+(defclass des3 ()
+  ((cipher-keys   :type (simple-array (unsigned-byte 64) 3) :initarg :cipher-keys)
+   (expanded-keys :type (simple-array * 3))))
 
-(declaim (inline decrypt3-1))
-(defun decrypt3-1 (n)
-  "DES3 decryption with pre-calculated keys."
-  (declare (type (unsigned-byte 64) n))
-  (let ((w (initial-permutation n)))
-    (declare (type (unsigned-byte 64) w))
-    (setf w (%decrypt w 2)
-	  w (%encrypt w 1)
-	  w (%decrypt w 0)) 
-    (inverse-initial-permutation w)))
+(defmethod initialize-instance :after ((o des3) &rest initargs)
+  (declare (ignore initargs))
+  (with-slots (expanded-keys cipher-keys) o
+    (setf expanded-keys (make-array 3))
 
-(defun encrypt3 (n key1 key2 key3)
-  "Triple DES encryption of N with KEY1, KEY2 and KEY3."
-  (declare (type (unsigned-byte 64) n key1 key2 key3))
-  (init-keys-3 key1 key2 key3)
-  (encrypt3-1 n))
+    (loop with ek = (make-array 16 :element-type '(unsigned-byte 48))
+	  for j below 3 do
+	    (loop for i from 1 to 16 do
+	      (setf (aref ek (1- i)) (ks (aref cipher-keys j) i)))
+	    (setf (aref expanded-keys j) ek))))
+	      
+(defmethod encrypt ((o des3) n)
+  "DES3 encryption of 64 bit number N."
+  (with-slots (expanded-keys) o
+    (let ((w (initial-permutation n)))
+      (declare (type (unsigned-byte 64) w))
+      (setf w (%encrypt w (aref expanded-keys 0))
+	    w (%decrypt w (aref expanded-keys 1))
+	    w (%encrypt w (aref expanded-keys 2)))
+      (inverse-initial-permutation w))))
 
-(defun decrypt3 (n key1 key2 key3)
-  "Triple DES decryption of N with KEY1, KEY2 and KEY3."
-  (declare (type (unsigned-byte 64) n key1 key2 key3))
-  (init-keys-3 key1 key2 key3)
-  (decrypt3-1 n))
+(defmethod decrypt ((o des3) n)
+  "DES3 decryption of 64 bit number N."
+  (with-slots (expanded-keys) o
+    (let ((w (initial-permutation n)))
+      (declare (type (unsigned-byte 64) w))
+      (setf w (%decrypt w (aref expanded-keys 2))
+	    w (%encrypt w (aref expanded-keys 1))
+	    w (%decrypt w (aref expanded-keys 0))) 
+      (inverse-initial-permutation w))))

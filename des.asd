@@ -6,8 +6,10 @@
 	       (:file "s-boxes" :depends-on ("packages"))
 	       (:file "cipher-function" :depends-on ("packages"))
 	       (:file "des-core" :depends-on ("packages" "key-scheduler"))
-	       (:file "des" :depends-on ("packages" "des-core"))
-	       (:file "des3" :depends-on ("packages" "des-core"))))
+	       (:file "generic" :depends-on ("packages"))
+	       (:file "des" :depends-on ("packages" "des-core" "generic"))
+	       (:file "des3" :depends-on ("packages" "des-core" "generic"))
+	       (:file "block" :depends-on ("packages"))))
 
 ;;; Usage:
 ;;;   (asdf:load-system :des-tests)
@@ -16,8 +18,8 @@
   :depends-on (des sb-rt)
   :components ((:file "packages")
 	       (:file "test-permutations" :depends-on ("packages"))
-	       (:file "test-des" :depends-on ("packages"))
-	       (:file "test-des3" :depends-on ("packages"))))
+	       (:file "des-tests" :depends-on ("packages"))
+	       (:file "des3-tests" :depends-on ("packages"))))
 
 ;;; Local Variables:
 ;;; mode: Lisp

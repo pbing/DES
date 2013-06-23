@@ -1,4 +1,4 @@
-;;; Cipher function
+;;;; Cipher function
 
 (in-package #:des)
 
@@ -33,32 +33,32 @@
 	  w (dpb (ldb (byte 1 20) n) (byte 1 26) w)
 	  w (dpb (ldb (byte 1  4) n) (byte 1 25) w)
 	  w (dpb (ldb (byte 1 15) n) (byte 1 24) w)
-				                 
+
 	  w (dpb (ldb (byte 1 31) n) (byte 1 23) w)
 	  w (dpb (ldb (byte 1 17) n) (byte 1 22) w)
 	  w (dpb (ldb (byte 1  9) n) (byte 1 21) w)
 	  w (dpb (ldb (byte 1  6) n) (byte 1 20) w)
-				                 
+
 	  w (dpb (ldb (byte 1 27) n) (byte 1 19) w)
 	  w (dpb (ldb (byte 1 14) n) (byte 1 18) w)
 	  w (dpb (ldb (byte 1  1) n) (byte 1 17) w)
 	  w (dpb (ldb (byte 1 22) n) (byte 1 16) w)
-				                 
+
 	  w (dpb (ldb (byte 1 30) n) (byte 1 15) w)
 	  w (dpb (ldb (byte 1 24) n) (byte 1 14) w)
 	  w (dpb (ldb (byte 1  8) n) (byte 1 13) w)
 	  w (dpb (ldb (byte 1 18) n) (byte 1 12) w)
-				                 
+
 	  w (dpb (ldb (byte 1  0) n) (byte 1 11) w)
 	  w (dpb (ldb (byte 1  5) n) (byte 1 10) w)
 	  w (dpb (ldb (byte 1 29) n) (byte 1  9) w)
 	  w (dpb (ldb (byte 1 23) n) (byte 1  8) w)
-				                 
+
 	  w (dpb (ldb (byte 1 13) n) (byte 1  7) w)
 	  w (dpb (ldb (byte 1 19) n) (byte 1  6) w)
 	  w (dpb (ldb (byte 1  2) n) (byte 1  5) w)
 	  w (dpb (ldb (byte 1 26) n) (byte 1  4) w)
-				                 
+
 	  w (dpb (ldb (byte 1 10) n) (byte 1  3) w)
 	  w (dpb (ldb (byte 1 21) n) (byte 1  2) w)
 	  w (dpb (ldb (byte 1 28) n) (byte 1  1) w)
