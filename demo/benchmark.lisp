@@ -30,15 +30,7 @@
   (values))
 
 #+(or)
-(sb-profile:profile des:block-encrypt-ecb
-		    des::initial-permutation
-		    des::inverse-initial-permutation
-		    des::%encrypt 
-		    des::%decrypt 
-		    des:encrypt 
-		    des:decrypt 
-		    des::pc-1 des::pc-2 des::ks 
-		    des::e des::p des::f)
+(sb-profile:profile "DES")
 ;;; (sb-profile:report)
 ;;; (sb-profile:reset)
 ;;; (sb-profile:unprofile)
@@ -47,7 +39,6 @@
 ;;; (require :sb-sprof)
 #+(or)
 (sb-sprof:with-profiling (:max-samples 1000 
-			  :mode :cpu
-			  :report :flat
-			  :show-progress t)
+			  :mode :time
+			  :report :flat)
   (benchmark-encrypt-ecb))
