@@ -17,7 +17,7 @@
 (defsystem des-tests
   :depends-on (des sb-rt)
   :components ((:file "packages")
-	       (:file "test-permutations" :depends-on ("packages"))
+	       (:file "permutation-tests" :depends-on ("packages"))
 	       (:file "des-tests" :depends-on ("packages"))
 	       (:file "des3-tests" :depends-on ("packages"))))
 
