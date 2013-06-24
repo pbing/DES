@@ -4,19 +4,20 @@
   :in-order-to ((test-op (test-op des-tests)))
   :pathname "src"
   :components ((:file "packages")
-	       (:file "key-scheduler" :depends-on ("packages"))
-	       (:file "s-boxes" :depends-on ("packages"))
-	       (:file "cipher-function" :depends-on ("packages"))
-	       (:file "des-core" :depends-on ("packages" "key-scheduler"))
-	       (:file "generic" :depends-on ("packages"))
-	       (:file "des" :depends-on ("packages" "des-core" "generic"))
-	       (:file "des3" :depends-on ("packages" "des-core" "generic"))
-	       (:file "block" :depends-on ("packages"))))
+	       (:file "key-scheduler")
+	       (:file "s-boxes")
+	       (:file "cipher-function")
+	       (:file "des-core")
+	       (:file "generic")
+	       (:file "des" :depends-on ("des-core"))
+	       (:file "des3" :depends-on ("des-core"))
+	       (:file "block")))
 
 (defsystem des-tests
   :depends-on (des sb-rt)
   :pathname "tests"
-  :components ((:file "permutation-tests")
+  :components ((:file "packages")
+	       (:file "permutation-tests")
 	       (:file "des-tests")
 	       (:file "des3-tests")))
 
